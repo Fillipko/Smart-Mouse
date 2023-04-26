@@ -10,6 +10,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
@@ -29,6 +32,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         xAccel = findViewById(R.id.xAcceleration);
         yAccel = findViewById(R.id.yAcceleration);
+
+        ImageButton settingsBtn = findViewById(R.id.settings_btn);
+
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openSettings();
+            }
+        });
+    }
+
+    public void openSettings() {
+        Intent intent = new Intent(this, Settings.class);
+        startActivity(intent);
     }
 
     //onResume() register the accelerometer for listening the events
