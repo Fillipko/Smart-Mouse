@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -27,29 +29,35 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     ScrollView debuggingConsole;
     TextView debuggingLog;
+    Button leftBtn;
+    Button rightBtn;
+    LinearLayout debugMenu;
+
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        preferences = getSharedPreferences("preferences", 0);
+
+        // Accelerometer
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-
         xAccel = findViewById(R.id.xAcceleration);
         yAccel = findViewById(R.id.yAcceleration);
 
-        Button leftBtn = findViewById(R.id.leftClickBtn);
-        Button rightBtn = findViewById(R.id.rightClickBtn);
+        // UI elements
+        leftBtn = findViewById(R.id.leftClickBtn);
+        rightBtn = findViewById(R.id.rightClickBtn);
         ImageButton settingsBtn = findViewById(R.id.settings_btn);
         debuggingLog = findViewById(R.id.debug_text);
         debuggingConsole = findViewById(R.id.debug_console);
-        LinearLayout debugMenu = findViewById(R.id.debugging_menu);
+        debugMenu = findViewById(R.id.debugging_menu);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            debugMenu.setVisibility(extras.getInt("debug"));
-        }
+        setupMenu();
+
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void openSettings() {
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
+
     }
 
     private void consoleWrite(String msg) {
@@ -89,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     protected void onResume() {
         super.onResume();
+        setupMenu();
         sensorManager.registerListener((SensorEventListener) this, accelerometer, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
@@ -119,5 +129,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
+    }
+
+    public void setupMenu() {
+        if (preferences != null) {
+            debugMenu.setVisibility(preferences.getInt("debug", View.GONE));
+            rightBtn.setBackgroundTintList(getColorStateList(preferences.getInt("color", R.color.blue)));
+            leftBtn.setBackgroundTintList(getColorStateList(preferences.getInt("color", R.color.blue)));
+        }
     }
 }

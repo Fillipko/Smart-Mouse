@@ -78,34 +78,53 @@
                 android:gravity="center">
 
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/blue"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text=""
+                    app:backgroundTint="@color/blue"/>
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/green"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:text="" />
+                    android:text=""
+                    app:backgroundTint="@color/green" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/purple"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:text=""
+                    app:backgroundTint="@color/purple" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/yellow"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:text="" />
+                    android:text=""
+                    app:backgroundTint="@color/yellow" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/red"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:text="" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/blue"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:text="" />
+                    android:text=""
+                    app:backgroundTint="@color/red" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/gray"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
-                    android:text="" />
+                    android:text=""
+                    app:backgroundTint="@color/gray" />
+
             </TableRow>
 
         </TableLayout>
