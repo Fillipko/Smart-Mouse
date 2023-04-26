@@ -13,14 +13,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
+    // Accelerometer Data
     private SensorManager sensorManager;
     private Sensor accelerometer;
     private TextView xAccel, yAccel;
     private float x, y;
+
+    ScrollView debuggingConsole;
+    TextView debuggingLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +38,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         xAccel = findViewById(R.id.xAcceleration);
         yAccel = findViewById(R.id.yAcceleration);
 
+        Button leftBtn = findViewById(R.id.leftClickBtn);
+        Button rightBtn = findViewById(R.id.rightClickBtn);
         ImageButton settingsBtn = findViewById(R.id.settings_btn);
+        debuggingLog = findViewById(R.id.debug_text);
+        debuggingConsole = findViewById(R.id.debug_console);
+
+        leftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                consoleWrite("Left button clicked");
+            }
+        });
+
+        rightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                consoleWrite("Right button clicked");
+            }
+        });
 
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +70,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
     }
+
+    private void consoleWrite(String msg) {
+        String prevText = debuggingLog.getText().toString();
+        debuggingLog.setText(prevText + msg + "\n");
+        debuggingConsole.fullScroll(debuggingConsole.FOCUS_DOWN);
+    }
+
+    /*** Accelerometer Controls ***/
 
     //onResume() register the accelerometer for listening the events
     @Override
@@ -62,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onPause();
         sensorManager.unregisterListener((SensorEventListener) this);
     }
-
 
     @Override
     protected void onDestroy() {
