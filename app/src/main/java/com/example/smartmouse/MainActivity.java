@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -43,7 +44,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         ImageButton settingsBtn = findViewById(R.id.settings_btn);
         debuggingLog = findViewById(R.id.debug_text);
         debuggingConsole = findViewById(R.id.debug_console);
+        LinearLayout debugMenu = findViewById(R.id.debugging_menu);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            debugMenu.setVisibility(extras.getInt("debug"));
+        }
         leftBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
