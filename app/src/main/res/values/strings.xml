@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Smart Mouse</string>
+    <string name="left_button_content_description">left click</string>
+    <string name="right_button_content_description">right click</string>
+    <string name="back_button_content_description">back</string>
+    <string name="sensitivity_label">Sensitivity</string>
+    <string name="button_color_label">Button Color</string>
+
+
+
 </resources>

@@ -9,29 +9,58 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:srcCompat="@android:drawable/ic_menu_preferences" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/leftClickBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="500dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
+                android:contentDescription="@string/left_button_content_description"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                app:cornerRadius="100dp"
+                app:icon="@android:drawable/button_onoff_indicator_off"
+                app:iconGravity="textTop"
                 app:srcCompat="@android:drawable/button_onoff_indicator_off" />
 
-            <ImageButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/rightClickBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="500dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="1"
+                android:contentDescription="@string/right_button_content_description"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                app:cornerRadius="100dp"
+                app:icon="@android:drawable/button_onoff_indicator_off"
+                app:iconGravity="textTop"
                 app:srcCompat="@android:drawable/button_onoff_indicator_off" />
 
         </LinearLayout>
