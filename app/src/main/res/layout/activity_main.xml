@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <com.google.android.material.button.MaterialButton
+            <com.example.smartmouse.MouseBtn
                 android:id="@+id/leftClickBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="500dp"
@@ -47,7 +47,7 @@
                 app:iconGravity="textTop"
                 app:srcCompat="@android:drawable/button_onoff_indicator_off" />
 
-            <com.google.android.material.button.MaterialButton
+            <com.example.smartmouse.MouseBtn
                 android:id="@+id/rightClickBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="500dp"

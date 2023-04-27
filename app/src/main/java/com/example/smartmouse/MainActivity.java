@@ -12,6 +12,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.view.HapticFeedbackConstants;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -29,8 +31,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     ScrollView debuggingConsole;
     TextView debuggingLog;
-    Button leftBtn;
-    Button rightBtn;
+    MouseBtn leftBtn;
+    MouseBtn rightBtn;
     LinearLayout debugMenu;
 
     SharedPreferences preferences;
@@ -57,20 +59,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         debugMenu = findViewById(R.id.debugging_menu);
 
         setupMenu();
-
-        leftBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                consoleWrite("Left button clicked");
-            }
-        });
-
-        rightBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                consoleWrite("Right button clicked");
-            }
-        });
 
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,10 +108,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         y = event.values[1];
         //Tolerance of 0.2 to start moving cursor
         if (Math.abs(x) > 0.2) {
-            xAccel.setText((Float.toString(x)));
+            xAccel.setText(String.format(Float.toString(x)));
         }
         if (Math.abs(y) > 0.2) {
-            yAccel.setText((Float.toString(y)));
+            yAccel.setText(String.format(Float.toString(y)));
         }
     }
 
@@ -136,6 +124,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             debugMenu.setVisibility(preferences.getInt("debug", View.GONE));
             rightBtn.setBackgroundTintList(getColorStateList(preferences.getInt("color", R.color.blue)));
             leftBtn.setBackgroundTintList(getColorStateList(preferences.getInt("color", R.color.blue)));
+            rightBtn.setHapticFeedbackEnabled(preferences.getBoolean("haptics", false));
+            leftBtn.setHapticFeedbackEnabled(preferences.getBoolean("haptics", false));
         }
     }
 }

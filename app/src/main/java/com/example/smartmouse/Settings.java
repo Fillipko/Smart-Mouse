@@ -5,6 +5,7 @@ import static android.view.View.VISIBLE;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,7 +18,7 @@ import android.widget.Switch;
 public class Settings extends AppCompatActivity {
 
     ImageButton backBtn;
-    Switch debugToggle;
+    Switch hapticsToggle, debugToggle;
     Button blueBtn, greenBtn, purpleBtn, yellowBtn, redBtn, grayBtn;
     SharedPreferences preferences;
     SharedPreferences.Editor prefEditor;
@@ -33,6 +34,7 @@ public class Settings extends AppCompatActivity {
 
         // UI elements
         backBtn = findViewById(R.id.back_btn);
+        hapticsToggle = findViewById(R.id.haptics_switch);
         debugToggle = findViewById(R.id.debug_console_switch);
         blueBtn = findViewById(R.id.blue);
         greenBtn = findViewById(R.id.green);
@@ -47,7 +49,8 @@ public class Settings extends AppCompatActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                backToMouse();
+                prefEditor.commit();
+                finish();
             }
         });
 
@@ -55,12 +58,20 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (debugToggle.isChecked()) {
-                    prefEditor.putInt("debug", VISIBLE).commit();
+                    prefEditor.putInt("debug", VISIBLE);
                 }
                 else {
-                    prefEditor.putInt("debug", GONE).commit();
+                    prefEditor.putInt("debug", GONE);
                 }
                 prefEditor.putBoolean("debug_toggle", debugToggle.isChecked());
+            }
+        });
+
+        hapticsToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prefEditor.putBoolean("haptics", hapticsToggle.isChecked());
+                prefEditor.putBoolean("haptics_toggle", hapticsToggle.isChecked());
             }
         });
 
@@ -108,12 +119,8 @@ public class Settings extends AppCompatActivity {
         });
     }
 
-    public void backToMouse() {
-        prefEditor.commit();
-        finish();
-    }
-
     public void setupMenu() {
         debugToggle.setChecked(preferences.getBoolean("debug_toggle", false));
+        hapticsToggle.setChecked(preferences.getBoolean("haptics_toggle", false));
     }
 }

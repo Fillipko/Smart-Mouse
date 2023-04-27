@@ -24,43 +24,82 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/back_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:contentDescription="@string/back_button_content_description"
-                app:srcCompat="?attr/actionModeCloseDrawable" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/back_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:contentDescription="@string/back_button_content_description"
+                    app:srcCompat="?attr/actionModeCloseDrawable" />
+
+                <TextView
+                    android:id="@+id/settings_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingEnd="10dp"
+                    android:text="@string/settings_title_label"
+                    android:textAlignment="textEnd"
+                    android:textSize="34sp" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
 
             <Switch
                 android:id="@+id/invert_btn_switch"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="@string/invert_buttons_label" />
+                android:text="@string/invert_buttons_label"
+                android:textColor="?android:attr/textColorPrimary" />
+
+            <Switch
+                android:id="@+id/haptics_switch"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="@string/haptics_label"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <Switch
                 android:id="@+id/debug_console_switch"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:text="@string/debugging_switch_label" />
+                android:text="@string/debugging_switch_label"
+                android:textColor="?android:attr/textColorPrimary" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
 
             <TextView
                 android:id="@+id/sensitivity_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sensitivity_label" />
+                android:text="@string/sensitivity_label"
+                android:textColor="?android:attr/textColorPrimary" />
 
             <SeekBar
                 android:id="@+id/seekBar"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="50dp"
                 android:layout_weight="1" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
 
             <TextView
                 android:id="@+id/button_color_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/button_color_label" />
+                android:text="@string/button_color_label"
+                android:textColor="?android:attr/textColorPrimary" />
         </LinearLayout>
 
         <TableLayout
@@ -82,14 +121,23 @@
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:text=""
-                    app:backgroundTint="@color/blue"/>
+                    app:backgroundTint="@color/blue" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/green"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
+                    android:padding="10dp"
                     android:text=""
                     app:backgroundTint="@color/green" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/purple"
@@ -111,12 +159,20 @@
                     android:text=""
                     app:backgroundTint="@color/yellow" />
 
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/red"
                     android:layout_width="70dp"
                     android:layout_height="70dp"
                     android:text=""
                     app:backgroundTint="@color/red" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="wrap_content" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/gray"

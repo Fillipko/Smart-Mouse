@@ -5,7 +5,10 @@
     <string name="back_button_content_description">back</string>
     <string name="sensitivity_label">Sensitivity</string>
     <string name="button_color_label">Button Color</string>
-    <string name="debugging_switch_label">Show Debugging Log</string>
     <string name="invert_buttons_label">Invert Buttons</string>
+    <string name="haptics_label">Enable Haptics</string>
+    <string name="debugging_switch_label">Show Debugging Log</string>
+    <string name="settings_title_label">Settings</string>
+
 
 </resources>
