@@ -5,20 +5,21 @@ import static android.view.View.VISIBLE;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.Switch;
+import android.widget.TextView;
 
 public class Settings extends AppCompatActivity {
 
     ImageButton backBtn;
     Switch invertToggle, hapticsToggle, debugToggle;
+    SeekBar sensitivity;
+    TextView sensitivity_percent;
     Button blueBtn, greenBtn, purpleBtn, yellowBtn, redBtn, grayBtn;
     SharedPreferences preferences;
     SharedPreferences.Editor prefEditor;
@@ -38,6 +39,9 @@ public class Settings extends AppCompatActivity {
         hapticsToggle = findViewById(R.id.haptics_switch);
         debugToggle = findViewById(R.id.debug_console_switch);
 
+        sensitivity = findViewById(R.id.sensitivity_seekBar);
+        sensitivity_percent = findViewById(R.id.sensitivity_percentage);
+
         blueBtn = findViewById(R.id.blue);
         greenBtn = findViewById(R.id.green);
         purpleBtn = findViewById(R.id.purple);
@@ -53,6 +57,25 @@ public class Settings extends AppCompatActivity {
             public void onClick(View v) {
                 prefEditor.commit();
                 finish();
+            }
+        });
+
+        sensitivity.setMax(10);
+        sensitivity.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                prefEditor.putInt("sensitivity", sensitivity.getProgress());
+                sensitivity_percent.setText("%" + (sensitivity.getProgress() * 10));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
             }
         });
 
@@ -133,5 +156,7 @@ public class Settings extends AppCompatActivity {
         debugToggle.setChecked(preferences.getBoolean("debug_toggle", false));
         hapticsToggle.setChecked(preferences.getBoolean("haptics_toggle", false));
         invertToggle.setChecked(preferences.getBoolean("invert_toggle", false));
+        sensitivity.setProgress(preferences.getInt("sensitivity", 0));
+        sensitivity_percent.setText("%" + preferences.getInt("sensitivity", 0) * 10);
     }
 }

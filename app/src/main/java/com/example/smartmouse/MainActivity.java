@@ -2,11 +2,10 @@ package com.example.smartmouse;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.bluetooth.BluetoothAdapter;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -21,6 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     // Accelerometer Data
@@ -29,14 +33,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TextView xAccel, yAccel;
     private float x, y;
 
+    // UI Elements
     ScrollView debuggingConsole;
     TextView debuggingLog;
-    MouseBtn leftBtn;
-    MouseBtn rightBtn;
+    Button leftBtn;
+    Button rightBtn;
     LinearLayout debugMenu;
 
+    // Network variables
+    private Socket client;
+    DataOutputStream DOS;
+    private PrintWriter printwriter;
+    private String message;
+
+    // Saved preferences
     SharedPreferences preferences;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,27 +73,29 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         setupMenu();
 
-        leftBtn.setOnClickListener(new View.OnClickListener() {
+        leftBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
                 if (preferences.getBoolean("invert", false)) {
-                    rightClick();
+                    rightClick(v, event);
                 }
                 else {
-                    leftClick();
+                    leftClick(v, event);
                 }
+                return true;
             }
         });
 
-        rightBtn.setOnClickListener(new View.OnClickListener() {
+        rightBtn.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
+            public boolean onTouch(View v, MotionEvent event) {
                 if (preferences.getBoolean("invert", false)) {
-                    leftClick();
+                    leftClick(v, event);
                 }
                 else {
-                    rightClick();
+                    rightClick(v, event);
                 }
+                return true;
             }
         });
 
@@ -90,6 +105,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 openSettings();
             }
         });
+
     }
 
     public void openSettings() {
@@ -127,8 +143,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     public void onSensorChanged(SensorEvent event) {
-        x = event.values[0];
-        y = event.values[1];
+        x = event.values[0] + (float)(preferences.getInt("sensitivity", 0)) / 10;
+        y = event.values[1] + (float)(preferences.getInt("sensitivity", 0)) / 10;
         //Tolerance of 0.2 to start moving cursor
         if (Math.abs(x) > 0.2) {
             xAccel.setText(String.format(Float.toString(x)));
@@ -152,11 +168,67 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    public void leftClick() {
-        consoleWrite("Left button pressed");
+    // Button click actions
+    public void leftClick(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                consoleWrite("left button pressed");
+                break;
+            case MotionEvent.ACTION_UP:
+                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                consoleWrite("left button released");
+                break;
+        }
     }
 
-    public void rightClick() {
-        consoleWrite("Right button pressed");
+    public void rightClick(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                consoleWrite("right button pressed");
+                break;
+            case MotionEvent.ACTION_UP:
+                v.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                consoleWrite("right button released");
+                break;
+        }
+    }
+
+    // The ClientThread class performs the networking operations
+    class ClientThread implements Runnable {
+        private final String message;
+
+        ClientThread(String message) {
+            this.message = message;
+        }
+        @Override
+        public void run() {
+            try {
+                // the IP and port should be correct to have a connection established
+                // Creates a stream socket and connects it to the specified port number on the named host.
+                client = new Socket("192.168.110.32", 4444);  // connect to server
+                printwriter = new PrintWriter(client.getOutputStream(),true);
+                printwriter.write(message);  // write the message to output stream
+
+                printwriter.flush();
+                printwriter.close();
+
+                // closing the connection
+                client.close();
+
+            } catch (IOException e) {
+                consoleWrite("network error");
+                e.printStackTrace();
+            }
+
+            // updating the UI
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                }
+            });
+        }
     }
 }
