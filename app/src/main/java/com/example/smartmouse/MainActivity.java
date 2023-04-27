@@ -60,6 +60,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         setupMenu();
 
+        leftBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (preferences.getBoolean("invert", false)) {
+                    rightClick();
+                }
+                else {
+                    leftClick();
+                }
+            }
+        });
+
+        rightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (preferences.getBoolean("invert", false)) {
+                    leftClick();
+                }
+                else {
+                    rightClick();
+                }
+            }
+        });
+
         settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void openSettings() {
         Intent intent = new Intent(this, Settings.class);
         startActivity(intent);
-
     }
 
     private void consoleWrite(String msg) {
@@ -127,5 +150,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             rightBtn.setHapticFeedbackEnabled(preferences.getBoolean("haptics", false));
             leftBtn.setHapticFeedbackEnabled(preferences.getBoolean("haptics", false));
         }
+    }
+
+    public void leftClick() {
+        consoleWrite("Left button pressed");
+    }
+
+    public void rightClick() {
+        consoleWrite("Right button pressed");
     }
 }

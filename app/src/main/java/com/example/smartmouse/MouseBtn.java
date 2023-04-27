@@ -3,6 +3,7 @@
  */
 package com.example.smartmouse;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
@@ -17,6 +18,8 @@ public class MouseBtn extends com.google.android.material.button.MaterialButton 
         super(context, attrs);
     }
 
+    // Can be suppressed because onClick performs the action onTouch only initiates haptics
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         super.onTouchEvent(event);
@@ -26,15 +29,8 @@ public class MouseBtn extends com.google.android.material.button.MaterialButton 
                 break;
             case MotionEvent.ACTION_UP:
                 performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
-                performClick();
                 break;
         }
-        return true;
-    }
-
-    @Override
-    public boolean performClick() {
-        super.performClick();
         return true;
     }
 }

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="vertical"
     tools:context=".Settings">
 
     <LinearLayout
@@ -34,15 +35,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:focusable="true"
                     android:contentDescription="@string/back_button_content_description"
+                    android:focusable="true"
                     app:srcCompat="?attr/actionModeCloseDrawable"
-                    app:tint="@color/white"/>
+                    app:tint="@color/white" />
 
                 <TextView
                     android:id="@+id/settings_header"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:paddingEnd="10dp"
                     android:text="@string/settings_title_label"
@@ -54,26 +55,84 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp" />
 
-            <Switch
-                android:id="@+id/invert_btn_switch"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="@string/invert_buttons_label"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingStart="20dp">
 
-            <Switch
-                android:id="@+id/haptics_switch"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="@string/haptics_label"
-                android:textColor="?android:attr/textColorPrimary" />
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingEnd="20dp"
+                    app:srcCompat="@drawable/baseline_swap_horiz_24" />
 
-            <Switch
-                android:id="@+id/debug_console_switch"
+                <Switch
+                    android:id="@+id/invert_btn_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:text="@string/invert_buttons_label"
+                    android:textColor="?android:attr/textColorPrimary" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="@string/debugging_switch_label"
-                android:textColor="?android:attr/textColorPrimary" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingStart="20dp">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingEnd="20dp"
+                    app:srcCompat="@drawable/baseline_vibration_24" />
+
+                <Switch
+                    android:id="@+id/haptics_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:text="@string/haptics_label"
+                    android:textColor="?android:attr/textColorPrimary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:paddingStart="20dp">
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:paddingEnd="20dp"
+                    app:srcCompat="@drawable/baseline_code_24" />
+
+                <Switch
+                    android:id="@+id/debug_console_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:text="@string/debugging_switch_label"
+                    android:textColor="?android:attr/textColorPrimary" />
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
             <Space
                 android:layout_width="match_parent"
@@ -87,10 +146,11 @@
                 android:textColor="?android:attr/textColorPrimary" />
 
             <SeekBar
-                android:id="@+id/seekBar"
+                android:id="@+id/sensitivity_seekBar"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:scrollbarSize="20dp" />
 
             <Space
                 android:layout_width="match_parent"
@@ -186,6 +246,12 @@
             </TableRow>
 
         </TableLayout>
+
+        <TextView
+            android:id="@+id/about_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/about_label" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
