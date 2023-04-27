@@ -18,7 +18,7 @@ import android.widget.Switch;
 public class Settings extends AppCompatActivity {
 
     ImageButton backBtn;
-    Switch hapticsToggle, debugToggle;
+    Switch invertToggle, hapticsToggle, debugToggle;
     Button blueBtn, greenBtn, purpleBtn, yellowBtn, redBtn, grayBtn;
     SharedPreferences preferences;
     SharedPreferences.Editor prefEditor;
@@ -34,8 +34,10 @@ public class Settings extends AppCompatActivity {
 
         // UI elements
         backBtn = findViewById(R.id.back_btn);
+        invertToggle = findViewById(R.id.invert_btn_switch);
         hapticsToggle = findViewById(R.id.haptics_switch);
         debugToggle = findViewById(R.id.debug_console_switch);
+
         blueBtn = findViewById(R.id.blue);
         greenBtn = findViewById(R.id.green);
         purpleBtn = findViewById(R.id.purple);
@@ -72,6 +74,14 @@ public class Settings extends AppCompatActivity {
             public void onClick(View v) {
                 prefEditor.putBoolean("haptics", hapticsToggle.isChecked());
                 prefEditor.putBoolean("haptics_toggle", hapticsToggle.isChecked());
+            }
+        });
+
+        invertToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                prefEditor.putBoolean("invert", invertToggle.isChecked());
+                prefEditor.putBoolean("invert_toggle", invertToggle.isChecked());
             }
         });
 
@@ -122,5 +132,6 @@ public class Settings extends AppCompatActivity {
     public void setupMenu() {
         debugToggle.setChecked(preferences.getBoolean("debug_toggle", false));
         hapticsToggle.setChecked(preferences.getBoolean("haptics_toggle", false));
+        invertToggle.setChecked(preferences.getBoolean("invert_toggle", false));
     }
 }

@@ -24,7 +24,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
-            app:srcCompat="@android:drawable/ic_menu_preferences" />
+            android:focusable="true"
+            app:srcCompat="@android:drawable/ic_menu_preferences"
+            app:tint="@color/white"/>
 
         <LinearLayout
             android:layout_width="match_parent"
