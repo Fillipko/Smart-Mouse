@@ -1,11 +1,14 @@
 package com.example.smartmouse;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,10 +23,16 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.widget.Toast;
+
+import java.util.Set;
+
+//import java.io.DataOutputStream;
+//import java.io.IOException;
+//import java.io.PrintWriter;
+//import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
@@ -40,11 +49,15 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     Button rightBtn;
     LinearLayout debugMenu;
 
+    // Bluetooth variables
+    private BluetoothAdapter BA;
+    private Set<BluetoothDevice> pairedDevices;
+
     // Network variables
-    private Socket client;
-    DataOutputStream DOS;
-    private PrintWriter printwriter;
-    private String message;
+//    private Socket client;
+//    DataOutputStream DOS;
+//    private PrintWriter printwriter;
+//    private String message;
 
     // Saved preferences
     SharedPreferences preferences;
@@ -62,6 +75,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
         xAccel = findViewById(R.id.xAcceleration);
         yAccel = findViewById(R.id.yAcceleration);
+
+        // Bluetooth
+        BA = BluetoothAdapter.getDefaultAdapter();
+        // Make sure device supports bluetooth
+        if (BA == null) {
+            Toast.makeText(this, "Device is not supported", Toast.LENGTH_SHORT).show();
+        }
+
 
         // UI elements
         leftBtn = findViewById(R.id.leftClickBtn);
@@ -116,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private void consoleWrite(String msg) {
         String prevText = debuggingLog.getText().toString();
         debuggingLog.setText(prevText + msg + "\n");
-        debuggingConsole.fullScroll(debuggingConsole.FOCUS_DOWN);
+        debuggingConsole.fullScroll(View.FOCUS_DOWN);
     }
 
     /*** Accelerometer Controls ***/
@@ -195,40 +216,41 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }
 
-    // The ClientThread class performs the networking operations
-    class ClientThread implements Runnable {
-        private final String message;
-
-        ClientThread(String message) {
-            this.message = message;
-        }
-        @Override
-        public void run() {
-            try {
-                // the IP and port should be correct to have a connection established
-                // Creates a stream socket and connects it to the specified port number on the named host.
-                client = new Socket("192.168.110.32", 4444);  // connect to server
-                printwriter = new PrintWriter(client.getOutputStream(),true);
-                printwriter.write(message);  // write the message to output stream
-
-                printwriter.flush();
-                printwriter.close();
-
-                // closing the connection
-                client.close();
-
-            } catch (IOException e) {
-                consoleWrite("network error");
-                e.printStackTrace();
-            }
-
-            // updating the UI
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-
-                }
-            });
-        }
-    }
+//// NETWORKING STUFF (UNSUCCESSFUL)
+//    // The ClientThread class performs the networking operations
+//    class ClientThread implements Runnable {
+//        private final String message;
+//
+//        ClientThread(String message) {
+//            this.message = message;
+//        }
+//        @Override
+//        public void run() {
+//            try {
+//                // the IP and port should be correct to have a connection established
+//                // Creates a stream socket and connects it to the specified port number on the named host.
+//                client = new Socket("192.168.110.32", 4444);  // connect to server
+//                printwriter = new PrintWriter(client.getOutputStream(),true);
+//                printwriter.write(message);  // write the message to output stream
+//
+//                printwriter.flush();
+//                printwriter.close();
+//
+//                // closing the connection
+//                client.close();
+//
+//            } catch (IOException e) {
+//                consoleWrite("network error");
+//                e.printStackTrace();
+//            }
+//
+//            // updating the UI
+//            runOnUiThread(new Runnable() {
+//                @Override
+//                public void run() {
+//
+//                }
+//            });
+//        }
+//    }
 }
