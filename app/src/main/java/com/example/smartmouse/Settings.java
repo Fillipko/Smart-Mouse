@@ -65,7 +65,7 @@ public class Settings extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 prefEditor.putInt("sensitivity", sensitivity.getProgress());
-                sensitivity_percent.setText("%" + (sensitivity.getProgress() * 10));
+                sensitivity_percent.setText((sensitivity.getProgress() * 10) + "%");
             }
 
             @Override
@@ -157,6 +157,6 @@ public class Settings extends AppCompatActivity {
         hapticsToggle.setChecked(preferences.getBoolean("haptics_toggle", false));
         invertToggle.setChecked(preferences.getBoolean("invert_toggle", false));
         sensitivity.setProgress(preferences.getInt("sensitivity", 0));
-        sensitivity_percent.setText("%" + preferences.getInt("sensitivity", 0) * 10);
+        sensitivity_percent.setText( preferences.getInt("sensitivity", 0) * 10 + "%");
     }
 }
